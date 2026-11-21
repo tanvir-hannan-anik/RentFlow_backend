@@ -30,4 +30,11 @@ export const env = {
   nodeEnv, port, corsOrigins,
   mongodbUri: process.env.MONGODB_URI,
   databaseName: process.env.DATABASE_NAME,
+  authUrl: process.env.BETTER_AUTH_URL ?? (nodeEnv === "production" ? "" : "http://localhost:3000"),
+  authSecret: process.env.BETTER_AUTH_SECRET,
+  googleClientId: process.env.GOOGLE_CLIENT_ID,
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+  stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+  imgbbApiKey: process.env.IMGBB_API_KEY,
 };

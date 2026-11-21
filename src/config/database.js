@@ -45,6 +45,11 @@ export function getDatabase() {
   return database;
 }
 
+export function getDatabaseClient() {
+  getDatabase();
+  return client;
+}
+
 export async function isDatabaseHealthy() {
   try {
     await getDatabase().command({ ping: 1 }, { timeoutMS: 3000 });

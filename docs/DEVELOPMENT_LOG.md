@@ -141,3 +141,17 @@ Installed mongodb@7.9.1; npm reported zero vulnerabilities. `npm run db:check` p
 Production-mode `npm start` connected before listening. GET /api/health and GET /api/health/database both returned HTTP 200 with the expected safe JSON; readiness had Cache-Control: no-store. A second startup on the occupied port exited 1 and released its pool. Offline tests remain 16/16 passing; syntax checks passed. The public 503 path is covered without Atlas by the isolated HTTP test. No frontend source changed; only its ignored local credential entry was removed.
 
 The assignment PDF remains unavailable, so PDF-specific completeness and proposed enum/workflow choices still need review when supplied. See DATABASE_DESIGN.md for all commands and limitations. The backend change is committed separately; no remote push was requested.
+
+## Segment 04 - Authentication foundation
+
+Reviewed AGENTS.md, existing source, database design, and prior development logs. The assignment PDF is still unavailable. Installed Better Auth's official MongoDB adapter and JOSE. Authentication initializes after the shared database connects; the adapter uses the existing pool and transactions. Better Auth owns users, account, session, verification, JWKS and rate-limit storage.
+
+Added email/password and optional Google authentication, required name/photo validation, 6-128-character mixed-case passwords, customer as the server-owned default role, and restricted admin permissions. Better Auth handles password hashing, signed HttpOnly sessions, and JWT creation. Cookie caching is disabled so role checks read current database state. JWTs contain only subject/session identity plus standard claims; verification pins EdDSA, issuer, audience, age and expiry, and requires the matching live session cookie. This deliberate session-bound design makes logout/revocation effective immediately. No custom token issuing or localStorage auth is used.
+
+Added verifyToken/verifyRenter/verifyOwner/verifyAdmin, protected identity/role endpoints and an admin role-change endpoint. The native Better Auth role endpoint also rejects self changes and invalid roles; other HTTP admin actions are disabled. Cookie mutation routes require the public frontend Origin. Better Auth's own CSRF protections remain enabled. Disabled email verification and password-reset routes. The auth handler is mounted before JSON parsing; CORS now allows credentials and Authorization. Generated a random local-only auth secret without printing it; production needs its own stable secret and HTTPS public auth URL. Google credentials were requested privately through the local env file.
+
+## 2026-11-21 — MongoDB equipment API
+
+Added public catalog search/filter/sort/pagination and equipment details; authenticated creation, owner-scoped update/soft deletion, favorites, rental requests, cancellation, and admin moderation/overview. Server validation controls ownership and calculates booking totals from stored prices. Added nine Extended JSON demo listings, an insert-only seed command, and isolated live integration checks. Normal npm test now targets test/*.test.js so it does not accidentally execute live database maintenance tests.
+
+Verification: 19 offline tests passed, 12 existing auth integration checks passed, and the isolated live equipment workflow passed. The configured database ping also succeeded. Test databases were removed after integration checks. Production data was not seeded automatically. Real payments, reservation locking, file uploads, and owner confirmation are not enabled.

@@ -1,0 +1,263 @@
+[
+  {
+    "_id": {
+      "$oid": "000000000000000000000001"
+    },
+    "name": "CAT 305.5E2 Mini Excavator",
+    "category": "Construction",
+    "description": "CAT 305.5E2 Mini Excavator for your next project. Well-maintained professional equipment with reliable performance. Contact the owner to arrange pickup and discuss your requirements.",
+    "image": "/images/construction.jpg",
+    "price": 240,
+    "location": {
+      "city": "Austin, TX"
+    },
+    "ownerId": "demo-owner",
+    "ownerName": "GearRent Demo Fleet",
+    "approvalStatus": "approved",
+    "specifications": "Condition: Excellent\nRental unit: Daily\nPickup: Arrange with owner",
+    "terms": "Return in the same condition. Confirm availability, transport, deposit, and operating requirements with the owner before rental.",
+    "createdAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "rentalType": "Daily",
+    "quantity": 3,
+    "condition": "Excellent",
+    "brand": "CAT",
+    "model": "305.5E2 Mini"
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000002"
+    },
+    "name": "Sony FX6 Cinema Camera",
+    "category": "Photography",
+    "description": "Sony FX6 Cinema Camera for your next project. Well-maintained professional equipment with reliable performance. Contact the owner to arrange pickup and discuss your requirements.",
+    "image": "/images/photography.jpg",
+    "price": 180,
+    "location": {
+      "city": "Los Angeles, CA"
+    },
+    "ownerId": "demo-owner",
+    "ownerName": "GearRent Demo Fleet",
+    "approvalStatus": "approved",
+    "specifications": "Condition: Excellent\nRental unit: Daily\nPickup: Arrange with owner",
+    "terms": "Return in the same condition. Confirm availability, transport, deposit, and operating requirements with the owner before rental.",
+    "createdAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "rentalType": "Daily",
+    "quantity": 3,
+    "condition": "Excellent",
+    "brand": "Sony",
+    "model": "FX6 Cinema"
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000003"
+    },
+    "name": "Skyjack SJIII 3219 Scissor Lift",
+    "category": "Construction",
+    "description": "Skyjack SJIII 3219 Scissor Lift for your next project. Well-maintained professional equipment with reliable performance. Contact the owner to arrange pickup and discuss your requirements.",
+    "image": "/images/construction.jpg",
+    "price": 150,
+    "location": {
+      "city": "Dallas, TX"
+    },
+    "ownerId": "demo-owner",
+    "ownerName": "GearRent Demo Fleet",
+    "approvalStatus": "approved",
+    "specifications": "Condition: Excellent\nRental unit: Daily\nPickup: Arrange with owner",
+    "terms": "Return in the same condition. Confirm availability, transport, deposit, and operating requirements with the owner before rental.",
+    "createdAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "rentalType": "Daily",
+    "quantity": 3,
+    "condition": "Excellent",
+    "brand": "Skyjack",
+    "model": "SJIII 3219"
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000004"
+    },
+    "name": "DJI Inspire 3 Cinema Drone",
+    "category": "Photography",
+    "description": "DJI Inspire 3 Cinema Drone for your next project. Well-maintained professional equipment with reliable performance. Contact the owner to arrange pickup and discuss your requirements.",
+    "image": "/images/photography.jpg",
+    "price": 320,
+    "location": {
+      "city": "Austin, TX"
+    },
+    "ownerId": "demo-owner",
+    "ownerName": "GearRent Demo Fleet",
+    "approvalStatus": "approved",
+    "specifications": "Condition: Excellent\nRental unit: Daily\nPickup: Arrange with owner",
+    "terms": "Return in the same condition. Confirm availability, transport, deposit, and operating requirements with the owner before rental.",
+    "createdAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "rentalType": "Daily",
+    "quantity": 3,
+    "condition": "Excellent",
+    "brand": "DJI",
+    "model": "Inspire 3"
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000005"
+    },
+    "name": "Honda EU7000iS Generator",
+    "category": "Electronics",
+    "description": "Honda EU7000iS Generator for your next project. Well-maintained professional equipment with reliable performance. Contact the owner to arrange pickup and discuss your requirements.",
+    "image": "/images/electronics.jpg",
+    "price": 65,
+    "location": {
+      "city": "Houston, TX"
+    },
+    "ownerId": "demo-owner",
+    "ownerName": "GearRent Demo Fleet",
+    "approvalStatus": "approved",
+    "specifications": "Condition: Excellent\nRental unit: Daily\nPickup: Arrange with owner",
+    "terms": "Return in the same condition. Confirm availability, transport, deposit, and operating requirements with the owner before rental.",
+    "createdAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "rentalType": "Daily",
+    "quantity": 3,
+    "condition": "Excellent",
+    "brand": "Honda",
+    "model": "EU7000iS Generator"
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000006"
+    },
+    "name": "John Deere 3032E Tractor",
+    "category": "Agriculture",
+    "description": "John Deere 3032E Tractor for your next project. Well-maintained professional equipment with reliable performance. Contact the owner to arrange pickup and discuss your requirements.",
+    "image": "/images/agriculture.jpg",
+    "price": 120,
+    "location": {
+      "city": "Austin, TX"
+    },
+    "ownerId": "demo-owner",
+    "ownerName": "GearRent Demo Fleet",
+    "approvalStatus": "approved",
+    "specifications": "Condition: Excellent\nRental unit: Daily\nPickup: Arrange with owner",
+    "terms": "Return in the same condition. Confirm availability, transport, deposit, and operating requirements with the owner before rental.",
+    "createdAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "rentalType": "Daily",
+    "quantity": 3,
+    "condition": "Excellent",
+    "brand": "John",
+    "model": "Deere 3032E"
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000007"
+    },
+    "name": "Ford Transit 250 Cargo Van",
+    "category": "Vehicles",
+    "description": "Ford Transit 250 Cargo Van for your next project. Professional rental equipment. Contact the owner for pickup and availability.",
+    "image": "/images/vehicles.jpg",
+    "price": 120,
+    "location": {
+      "city": "Austin, TX"
+    },
+    "ownerId": "demo-owner",
+    "ownerName": "GearRent Demo Fleet",
+    "approvalStatus": "approved",
+    "specifications": "Condition: Excellent\nRental unit: Daily\nPickup: Arrange with owner",
+    "terms": "Return in the same condition. Confirm availability, transport, deposit, and operating requirements with the owner before rental.",
+    "createdAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "rentalType": "Daily",
+    "quantity": 3,
+    "condition": "Excellent",
+    "brand": "Ford",
+    "model": "Transit 250"
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000008"
+    },
+    "name": "QSC KLA12 Line Array PA",
+    "category": "Events",
+    "description": "QSC KLA12 Line Array PA for your next project. Professional rental equipment. Contact the owner for pickup and availability.",
+    "image": "/images/events.jpg",
+    "price": 95,
+    "location": {
+      "city": "Austin, TX"
+    },
+    "ownerId": "demo-owner",
+    "ownerName": "GearRent Demo Fleet",
+    "approvalStatus": "approved",
+    "specifications": "Condition: Excellent\nRental unit: Daily\nPickup: Arrange with owner",
+    "terms": "Return in the same condition. Confirm availability, transport, deposit, and operating requirements with the owner before rental.",
+    "createdAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "rentalType": "Daily",
+    "quantity": 3,
+    "condition": "Excellent",
+    "brand": "QSC",
+    "model": "KLA12 Line"
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000009"
+    },
+    "name": "EcoFlow Delta Pro 3.6kWh",
+    "category": "Electronics",
+    "description": "EcoFlow Delta Pro 3.6kWh for your next project. Professional rental equipment. Contact the owner for pickup and availability.",
+    "image": "/images/electronics.jpg",
+    "price": 55,
+    "location": {
+      "city": "Austin, TX"
+    },
+    "ownerId": "demo-owner",
+    "ownerName": "GearRent Demo Fleet",
+    "approvalStatus": "approved",
+    "specifications": "Condition: Excellent\nRental unit: Daily\nPickup: Arrange with owner",
+    "terms": "Return in the same condition. Confirm availability, transport, deposit, and operating requirements with the owner before rental.",
+    "createdAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-21T00:00:00.000Z"
+    },
+    "rentalType": "Daily",
+    "quantity": 3,
+    "condition": "Excellent",
+    "brand": "EcoFlow",
+    "model": "Delta Pro"
+  }
+]

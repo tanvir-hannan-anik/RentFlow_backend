@@ -5,6 +5,8 @@ try {
   const connection = await import("./config/database.js");
   closeDatabase = connection.closeDatabase;
   await connection.connectDatabase();
+  const { initializeAuth } = await import("./config/auth.js");
+  await initializeAuth().$context;
   const { default: app } = await import("./app.js");
   const server = app.listen(env.port);
 

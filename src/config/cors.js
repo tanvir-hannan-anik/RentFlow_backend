@@ -12,6 +12,7 @@ export const corsOptions = {
     error.expose = true;
     callback(error);
   },
-  methods: ["GET", "HEAD", "OPTIONS"],
-  allowedHeaders: ["Content-Type"],
+  methods: ["GET", "HEAD", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
