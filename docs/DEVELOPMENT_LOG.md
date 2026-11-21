@@ -117,3 +117,27 @@ The two repositories remain independent, with meaningful Segment 02 commits and 
 - https://expressjs.com/en/guide/error-handling/
 - https://github.com/helmetjs/helmet
 - https://www.npmjs.com/package/dotenv
+
+## Segment 03 - 2026-11-21
+
+### Connection and configuration
+
+Reviewed existing instructions, code, and both development logs. No assignment PDF was present, so the schema will explicitly distinguish supplied requirements from provisional choices. Found a credential in the user's modified .env.example; replaced it with a placeholder, normalized the existing ignored .env.local key from MONGODB_URL to MONGODB_URI, and added DATABASE_NAME=rentflow. No credential is committed. Rotation was recommended because the value had been exposed in the shareable example.
+
+Installed the official mongodb driver. dotenv now reads .env.local then .env, preserving shell-variable priority. Added a shared MongoClient/promise, a pool capped at ten, bounded connection/ping timeouts, safe errors, and explicit cleanup. Startup must connect and ping before listening; it fails closed when configuration or Atlas access is invalid. No requests create new clients. Failed connection attempts remain failed until closeDatabase resets the module or the process restarts.
+
+Added GET /api/health/database as a 200/503 readiness check. Existing GET /api/health remains unchanged as liveness. Added explicit db:check and idempotent db:setup commands. The latter creates indexes and empty application collections without touching users or auth internals. Normal startup never runs index maintenance. Shutdown and listener errors close the driver pool.
+
+### Document design and offline tests
+
+Created DATABASE_DESIGN.md with all six planned collections, field types, relationships, illustrative documents, auth ownership boundaries, precise BSON Int64 minor-unit prices, proposed booking/payment states, half-open UTC rental intervals, Atlas setup, and a table matching all executable indexes. PDF-dependent choices are marked provisional. Users and auth internals remain wholly deferred to Better Auth; no auth schema or sample records are inserted. Configuration validation is kept local; unused business validation abstractions were not added.
+
+Added isolated database tests for concurrent pool reuse, cleanup and sanitized failures, readiness loss/recovery, and repeatable index definitions without auth writes. All 16 offline tests and entry syntax checks passed. The live check initially reached Atlas but authentication failed. After the user's update, both local copies matched and connection plus ping succeeded. Removed the redundant MongoDB value from frontend/.env.local while preserving BACKEND_URL and the backend credential; both local files are ignored. Backend README now documents database-required startup and the separate setup command.
+
+### Live verification and completion
+
+Installed mongodb@7.9.1; npm reported zero vulnerabilities. `npm run db:check` passed against Atlas after the credential update. `npm run db:setup` passed twice against rentflow, verifying real idempotency. Read-only index inspection confirmed all 14 named indexes across equipment (5), favorites (1), bookings (3), payments (3), and reviews (2), including unique/partial options. Repeated connectDatabase calls returned the same database handle. No sample data or auth records were written.
+
+Production-mode `npm start` connected before listening. GET /api/health and GET /api/health/database both returned HTTP 200 with the expected safe JSON; readiness had Cache-Control: no-store. A second startup on the occupied port exited 1 and released its pool. Offline tests remain 16/16 passing; syntax checks passed. The public 503 path is covered without Atlas by the isolated HTTP test. No frontend source changed; only its ignored local credential entry was removed.
+
+The assignment PDF remains unavailable, so PDF-specific completeness and proposed enum/workflow choices still need review when supplied. See DATABASE_DESIGN.md for all commands and limitations. The backend change is committed separately; no remote push was requested.

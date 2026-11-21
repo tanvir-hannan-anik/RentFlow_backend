@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-dotenv.config({ quiet: true });
+dotenv.config({ path: [".env.local", ".env"], quiet: true });
 
 const nodeEnv = process.env.NODE_ENV ?? "development";
 const port = Number(process.env.PORT ?? 5000);
@@ -26,4 +26,8 @@ for (const origin of corsOrigins) {
   }
 }
 
-export const env = { nodeEnv, port, corsOrigins };
+export const env = {
+  nodeEnv, port, corsOrigins,
+  mongodbUri: process.env.MONGODB_URI,
+  databaseName: process.env.DATABASE_NAME,
+};

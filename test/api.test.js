@@ -7,6 +7,9 @@ import express from "express";
 process.env.NODE_ENV = "production";
 process.env.CORS_ORIGINS = "http://localhost:3000,https://rentflow.example";
 process.env.PORT = "5000";
+// Offline tests must never use credentials from local environment files.
+process.env.MONGODB_URI = "";
+process.env.DATABASE_NAME = "rentflow_test";
 const { default: app } = await import("../src/app.js");
 const { errorHandler } = await import("../src/middleware/error-handler.js");
 
@@ -121,8 +124,15 @@ test("invalid configuration exits safely with a nonzero status", async () => {
   }
 });
 
-test("an occupied port fails with a useful message", async () => {
+test("startup requires database configuration before listening", async () => {
   const result = await runServer({ PORT: String(server.address().port) });
   assert.equal(result.code, 1);
-  assert.match(result.output, /already in use/);
+  assert.match(result.output, /API startup failed/);
+});
+
+test("database readiness is a safe 503 when not connected", async () => {
+  const response = await fetch(`${baseUrl}/api/health/database`);
+  assert.equal(response.status, 503);
+  assert.equal(response.headers.get("cache-control"), "no-store");
+  assert.deepEqual(await response.json(), { success: false, message: "Database is unavailable" });
 });
