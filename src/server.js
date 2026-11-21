@@ -1,11 +1,30 @@
-import app from "./app.js";
+// Dynamic imports let us catch configuration errors before starting to listen.
+try {
+  const { env } = await import("./config/env.js");
+  const { default: app } = await import("./app.js");
+  const server = app.listen(env.port);
 
-const port = Number(process.env.PORT ?? 5000);
+  server.on("listening", () => {
+    console.log(`RentFlow API: http://localhost:${env.port}/api/health`);
+  });
 
-if (!Number.isInteger(port) || port < 1 || port > 65535) {
-  throw new Error("PORT must be a whole number between 1 and 65535.");
+  server.on("error", (error) => {
+    console.error(error.code === "EADDRINUSE"
+      ? `Port ${env.port} is already in use.`
+      : "Unable to start the API server.");
+    process.exitCode = 1;
+  });
+
+  for (const signal of ["SIGINT", "SIGTERM"]) {
+    process.once(signal, () => {
+      server.close((error) => process.exit(error ? 1 : 0));
+      // Do not wait forever for a connection that will not finish.
+      setTimeout(() => process.exit(1), 10000).unref();
+    });
+  }
+} catch (error) {
+  console.error(process.env.NODE_ENV === "production"
+    ? "API startup failed. Check the server environment configuration."
+    : `API startup failed: ${error.message}`);
+  process.exitCode = 1;
 }
-
-app.listen(port, () => {
-  console.log(`Equipment Rental Platform backend: http://localhost:${port}`);
-});

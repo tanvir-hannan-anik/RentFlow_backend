@@ -70,3 +70,50 @@ Git setup commands are `git init -b main`, `git add .`, and `git commit -m "chor
 - The development watcher initially hit the sandbox's `spawn EPERM` restriction. It passed after authorized execution outside that restriction.
 - Both commands work without a `.env` file. Node's message that the optional file is missing is informational.
 - No build is needed, and no business-feature test suite is included in this setup segment.
+
+## Segment 02 - 2026-11-21
+
+### Review and scope
+
+Reviewed the available frontend AGENTS.md and both existing projects before editing; both Git working trees were clean. No backend-specific AGENTS.md or assignment PDF was available. Continued the existing Express ES Modules project for RentFlow without recreating it. This segment has no authentication, database, equipment routes, or business services.
+
+### Packages and configuration
+
+Installed `dotenv@18.0.10`, `cors@2.8.6`, and `helmet@8.3.0` with `npm install --save-exact dotenv cors helmet --offline=false`. Express remains 5.3.0. The updated package-lock.json records the complete tree. npm reported zero vulnerabilities. The existing environment needs authorized registry access for installations.
+
+`src/config/env.js` loads dotenv quietly before reading configuration, validates NODE_ENV and PORT, and parses/validates comma-separated origins. Existing process environment takes precedence over .env. Development defaults to port 5000 and origin http://localhost:3000. Production has no approved browser origins unless configured. The updated .env.example explains all three variables. Startup scripts now use dotenv rather than Node's environment-file flag: `npm run dev` runs `node --watch src/server.js`; `npm start` runs `node src/server.js`.
+
+### Files and responsibilities
+
+- `src/config/cors.js`: exact allowlist; absent Origin is permitted for CLI/server calls; rejected origins produce 403. GET, HEAD, OPTIONS and Content-Type are permitted for preflight. No wildcard or credential middleware was added.
+- `src/app.js`: development logger, Helmet, CORS, JSON parser, API routes, 404, final error handler, in that order. JSON size limit is 100 KB. Express's identification header is disabled.
+- `src/routes/api.routes.js`: mounts GET /health beneath /api.
+- `src/controllers/health.controller.js`: sends the requested message with HTTP 200 and no-store caching.
+- `src/utils/api-response.js`: small shared sender for success/message and optional data. No larger response abstraction is needed.
+- `src/middleware/request-logger.js`: measures finished requests in development; captures the original path before routing and omits query strings, headers, and bodies.
+- `src/middleware/not-found.js`: JSON 404 with a hint to use GET /api/health.
+- `src/middleware/error-handler.js`: maps malformed JSON to 400 and oversized bodies to 413, handles intentional client errors, and hides internal failures behind a generic 500 message. No client stack trace is returned. Production error logs also omit internal details. Delegates to Express if response headers were already sent.
+- `src/server.js`: catches configuration import errors, handles listener errors such as occupied ports, logs readiness, and closes on SIGINT/SIGTERM with a ten-second deadline.
+- `test/api.test.js`: Node's built-in test runner with real ephemeral HTTP listeners and subprocess startup checks. The synthetic failure route exists only in a test app, not in the public API.
+- `README.md`: current run commands, environment reference, structure, request flow, manual requests, automated tests, and separate-host deployment instructions.
+
+No services folder was created because there is no business logic yet. The former GET / plain-text placeholder is replaced by GET /api/health; unknown paths, including /, receive JSON 404. Standard CORS preflight uses an empty 204 response, not a JSON body.
+
+### Verification and commands
+
+`npm run check` passed for the entry files; `npm test` passed all 11 tests and imports the complete application. Tests cover exact health output and security headers, unknown routes, malformed and valid JSON, oversized bodies, two approved origins, unapproved/deceptive/null origins, preflight, production error privacy, invalid environment values, and occupied ports. The expected synthetic error logs `Unexpected API error.`. The occupied-port test was corrected to use the same network binding as the real server, avoiding an IPv4/IPv6 mismatch on Windows.
+
+`npm run dev` started on port 5000; requests through the frontend returned the expected results and request logs. `NODE_ENV=production` with `npm start` also started successfully. The production listener uses CORS_ORIGINS=http://localhost:3000 for local integration checks. Frontend `npm run test:connection` verifies the helper and proxy. README.md contains all manual curl commands for health, missing routes, malformed JSON, CORS and OPTIONS. Test subprocesses and dev/build tools needed authorized execution outside the sandbox's process-spawning restriction.
+
+### Deployment flow
+
+Browser -> frontend /api/* -> Next.js rewrite -> independently hosted Express -> JSON/status back to the browser. Set the real backend origin as frontend BACKEND_URL before building; set the exact frontend origin in backend CORS_ORIGINS and NODE_ENV=production. Rebuild frontend when its destination changes. A missing Origin is allowed but does not prove a caller is trusted: CORS is not authentication.
+
+The two repositories remain independent, with meaningful Segment 02 commits and no GitHub push. Earlier Segment 01 log entries retain the original setup history.
+
+### References reviewed
+
+- https://expressjs.com/en/resources/middleware/cors/
+- https://expressjs.com/en/guide/error-handling/
+- https://github.com/helmetjs/helmet
+- https://www.npmjs.com/package/dotenv
