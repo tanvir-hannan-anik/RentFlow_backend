@@ -4,11 +4,11 @@ import { requireJwt } from '../middleware/auth.js';
 import { env } from '../config/env.js';
 import { fail } from '../utils/record.js';
 import { sendResponse } from '../utils/api-response.js';
-const upload = multer({storage:multer.memoryStorage(),limits:{fileSize:5*1024*1024,files:1},fileFilter:(_req,file,callback)=>callback(null,['image/jpeg','image/png','image/webp'].includes(file.mimetype))});
+const upload = multer({storage:multer.memoryStorage(),limits:{fileSize:4*1024*1024,files:1},fileFilter:(_req,file,callback)=>callback(null,['image/jpeg','image/png','image/webp'].includes(file.mimetype))});
 const router = Router();
 router.post('/uploads/image',requireJwt,upload.single('image'),async(req,res)=>{
   if(!env.imgbbApiKey)throw fail('Image uploads are not configured.',503);
-  if(!req.file)throw fail('Choose a JPG, PNG, or WebP image up to 5 MB.');
+  if(!req.file)throw fail('Choose a JPG, PNG, or WebP image up to 4 MB.');
   const bytes=req.file.buffer;
   const valid=bytes.subarray(0,3).equals(Buffer.from([0xff,0xd8,0xff]))||bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]))||(bytes.subarray(0,4).toString()==='RIFF'&&bytes.subarray(8,12).toString()==='WEBP');
   if(!valid)throw fail('The selected file is not a supported image.');

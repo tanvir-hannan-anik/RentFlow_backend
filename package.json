@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "check": "tsc --noEmit",
     "test": "tsx --test test/*.test.ts",
     "db:check": "tsx scripts/database.ts check",

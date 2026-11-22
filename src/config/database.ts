@@ -7,7 +7,7 @@ let connectionPromise:Promise<Db>;
 
 export function connectDatabase() {
   // Concurrent callers share one connection attempt and one driver pool.
-  if (!connectionPromise) connectionPromise = openConnection();
+  if (!connectionPromise) connectionPromise = openConnection().catch(error => { connectionPromise = undefined; throw error; });
   return connectionPromise;
 }
 
