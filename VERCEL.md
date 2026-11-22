@@ -21,3 +21,5 @@ Upload limit: 4 MB, leaving room for multipart encoding under the default Vercel
 The TypeScript build compiles src/. Local npm start runs dist/src/server.js; Vercel invokes api/index.js. Deploy the backend repository root, not src/ or api/.
 
 The JavaScript deployment adapter imports dist/src/index.js after npm run build. Application code stays TypeScript; Vercel does not need to compile the function entry a second time. dist/src/** is explicitly included in the function bundle.
+
+The Other framework preset uses public/ as its static output directory. This folder is tracked with robots.txt; the API remains a Node function in api/index.js. Do not set the output directory to dist or expose compiled server files as static assets.
