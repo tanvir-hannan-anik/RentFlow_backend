@@ -1,5 +1,5 @@
 # Deploy the API
-Create a separate Vercel project for this backend repository (Root Directory backend if importing the parent folder). Framework: Other. Node.js: 22.x. Configuration is in vercel.json; api/index.ts initializes MongoDB and Better Auth on cold starts.
+Create a separate Vercel project for this backend repository (Root Directory backend if importing the parent folder). Framework: Other. Node.js: 22.x. Configuration is in vercel.json; api/index.js initializes MongoDB and Better Auth on cold starts.
 
 Set these Production environment variables before deployment:
 - MONGODB_URI: your Atlas connection string
@@ -18,4 +18,6 @@ The install command explicitly includes devDependencies: npm ci --include=dev. T
 
 Upload limit: 4 MB, leaving room for multipart encoding under the default Vercel request limit. Both projects explicitly install development dependencies for TypeScript compilation.
 
-The TypeScript build includes src/ and api/. Local npm start runs dist/src/server.js; Vercel invokes api/index.ts. Deploy the backend repository root, not src/ or api/.
+The TypeScript build compiles src/. Local npm start runs dist/src/server.js; Vercel invokes api/index.js. Deploy the backend repository root, not src/ or api/.
+
+The JavaScript deployment adapter imports dist/src/index.js after npm run build. Application code stays TypeScript; Vercel does not need to compile the function entry a second time. dist/src/** is explicitly included in the function bundle.
