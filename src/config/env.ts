@@ -13,24 +13,22 @@ if (!Number.isInteger(port) || port < 1 || port > 65535) {
   throw new Error("PORT must be a whole number between 1 and 65535.");
 }
 
-const corsOrigins = (process.env.CORS_ORIGINS ??
-  (nodeEnv === "production" ? "" : "http://localhost:3000"))
-  .split(",")
-  .map((origin) => origin.trim())
-  .filter(Boolean);
-
-for (const origin of corsOrigins) {
-  const url = new URL(origin);
-  if (!["http:", "https:"].includes(url.protocol) || url.origin !== origin) {
-    throw new Error("CORS_ORIGINS must contain exact HTTP(S) origins without paths.");
-  }
+function publicOrigin(value: string, name: string) {
+  try {
+    const url = new URL(value.trim());
+    if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.search || url.hash || url.pathname.replace(/\/+$/, '') !== '') throw new Error();
+    return url.origin;
+  } catch { throw new Error(name + ' must be an HTTP(S) website origin without a path.'); }
 }
+const authUrlValue = process.env.BETTER_AUTH_URL ?? (nodeEnv === 'production' ? '' : 'http://localhost:3000');
+const authUrl = authUrlValue ? publicOrigin(authUrlValue, 'BETTER_AUTH_URL') : '';
+const corsOrigins = (process.env.CORS_ORIGINS ?? authUrl).split(',').map(value => value.trim()).filter(Boolean).map(value => publicOrigin(value, 'CORS_ORIGINS'));
 
 export const env = {
   nodeEnv, port, corsOrigins,
   mongodbUri: process.env.MONGODB_URI,
   databaseName: process.env.DATABASE_NAME,
-  authUrl: process.env.BETTER_AUTH_URL ?? (nodeEnv === "production" ? "" : "http://localhost:3000"),
+  authUrl,
   authSecret: process.env.BETTER_AUTH_SECRET,
   googleClientId: process.env.GOOGLE_CLIENT_ID,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
