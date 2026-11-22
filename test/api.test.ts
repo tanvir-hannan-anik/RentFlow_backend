@@ -103,7 +103,7 @@ test("unexpected errors never expose internal details in production", async (con
 
 function runServer(environment) {
   return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, ["src/server.js"], {
+    const child = spawn(process.execPath, ["--import", "tsx", "src/server.ts"], {
       env: { ...process.env, ...environment }, stdio: ["ignore", "pipe", "pipe"],
     });
     let output = "";

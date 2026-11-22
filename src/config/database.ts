@@ -1,9 +1,9 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, type Db } from "mongodb";
 import { env } from "./env.js";
 
-let client;
-let database;
-let connectionPromise;
+let client:MongoClient;
+let database:Db;
+let connectionPromise:Promise<Db>;
 
 export function connectDatabase() {
   // Concurrent callers share one connection attempt and one driver pool.

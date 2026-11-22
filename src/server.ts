@@ -9,13 +9,19 @@ try {
   await initializeAuth().$context;
   const { default: app } = await import("./app.js");
   const server = app.listen(env.port);
+  const { reconcilePayments } = await import('./services/payments.js');
+  let reconciling = false;
+  const reconcile = async () => { if (reconciling) return; reconciling = true; try { await reconcilePayments(); } catch { console.error('Payment reconciliation will retry.'); } finally { reconciling = false; } };
+  const paymentTimer = setInterval(reconcile, 60000);
+  paymentTimer.unref();
+  void reconcile();
 
   server.on("listening", () => {
     console.log(`RentFlow API: http://localhost:${env.port}/api/health`);
   });
 
   server.on("error", async (error) => {
-    console.error(error.code === "EADDRINUSE"
+    console.error((error as NodeJS.ErrnoException).code === "EADDRINUSE"
       ? `Port ${env.port} is already in use.`
       : "Unable to start the API server.");
     process.exitCode = 1;
@@ -24,6 +30,7 @@ try {
 
   for (const signal of ["SIGINT", "SIGTERM"]) {
     process.once(signal, () => {
+      clearInterval(paymentTimer);
       server.close(async (error) => {
         try { await closeDatabase(); } catch { process.exit(1); }
         process.exit(error ? 1 : 0);

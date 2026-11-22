@@ -1,0 +1,6 @@
+import type { ObjectId } from 'mongodb';
+export interface AuthUser { id: string; name: string; email: string; image?: string|null; role?: string; banned?: boolean|null; phone?: string; address?: string }
+export interface EquipmentInput { name: string; description: string; category: string; image: string; price: number; rentalType: string; quantity: number; condition: string; brand: string; model: string; specifications: string; terms: string; location: {city:string} }
+export interface Equipment extends EquipmentInput { _id: ObjectId; ownerId:string; ownerName:string; ownerEmail?:string; approvalStatus:string; inventoryVersion?:number; deleted?:boolean }
+export interface Booking { _id:ObjectId; equipmentId:string; equipmentName:string; image:string; customerId:string; customerName:string; customerEmail:string; ownerId:string; ownerName:string; startDate:string; endDate:string; days:number; units:number; quantity:number; rentalType:string; unitPrice:number; total:number; status:string; paymentStatus:string; createdAt:Date; contactNumber:string; deliveryAddress:string; notes:string; stripeSessionId?:string; checkoutAttempt?:string; checkoutCreatedAt?:Date }
+declare global { namespace Express { interface Request { auth: {user:AuthUser;session:{id:string}} } } }

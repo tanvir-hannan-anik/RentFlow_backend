@@ -4,9 +4,13 @@ import { verifyToken, verifyRenter, verifyOwner, verifyAdmin } from "../middlewa
 import { getCurrentUser, changeUserRole } from "../controllers/auth.controller.js";
 import { env } from "../config/env.js";
 import equipmentRoutes from './equipment.routes.js';
+import paymentsRoutes from './payments.routes.js';
+import uploadsRoutes from './uploads.routes.js';
 
 const router = Router();
 router.use(equipmentRoutes);
+router.use(paymentsRoutes);
+router.use(uploadsRoutes);
 router.get("/health", getHealth);
 router.get("/health/database", getDatabaseHealth);
 router.get("/auth-options", (request, response) => response.json({ googleEnabled: Boolean(env.googleClientId && env.googleClientSecret) }));

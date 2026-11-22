@@ -7,3 +7,5 @@ coverage/
 Thumbs.db
 
 .admin-credentials.local.json
+
+dist/

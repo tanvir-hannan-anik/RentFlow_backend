@@ -7,12 +7,12 @@ export const corsOptions = {
       return callback(null, true);
     }
 
-    const error = new Error("Origin is not allowed.");
+    const error = Object.assign(new Error("Origin is not allowed."), {status:403, expose:true});
     error.status = 403;
     error.expose = true;
     callback(error);
   },
-  methods: ["GET", "HEAD", "POST", "OPTIONS"],
+  methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 };

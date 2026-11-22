@@ -64,7 +64,7 @@ export function createAuth(database, client, config = env) {
       }),
     ],
     hooks: { before: createAuthMiddleware(async (context) => {
-      const body = context.body ?? {};
+      const body = (context.body ?? {}) as Record<string, string>;
       if (["/sign-up/email", "/change-password", "/admin/create-user"].includes(context.path)) {
         const password = context.path === "/change-password" ? body.newPassword : body.password;
         if (!isValidPassword(password)) {

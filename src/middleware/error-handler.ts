@@ -19,6 +19,9 @@ export function errorHandler(error, request, response, next) {
     message = "Request could not be processed.";
   }
 
+  if (error.code === 'LIMIT_FILE_SIZE') return sendResponse(response, 413, 'Image must be 5 MB or smaller.');
+  if (error.name === 'MulterError') return sendResponse(response, 400, 'Upload one supported image file.');
+
   if (status >= 500) {
     console.error(env.nodeEnv === "production" ? "Unexpected API error." : error);
   }
